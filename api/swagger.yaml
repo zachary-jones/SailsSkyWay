@@ -1,0 +1,154 @@
+---
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: "Skyway API"
+host: "127.0.0.1:8080"
+basePath: "/api"
+schemes:
+- "http"
+- "https"
+consumes:
+- "application/json"
+- "application/x-www-form-urlencoded"
+produces:
+- "application/json"
+paths:
+  /programs:
+    get:
+      tags:
+      - "Programs"
+      description: "Gets `Program` objects.\nOptional query param of **University**\
+        \ determines\nthe school wich programs are returned\n"
+      operationId: "programsGET"
+      parameters:
+      - name: "schoolid"
+        in: "query"
+        description: "School sfid parameter"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Successful response"
+          schema:
+            $ref: "#/definitions/Programs"
+        400:
+          description: "Invalid date format should be in format YYYY-MM-DD"
+          schema:
+            $ref: "#/definitions/ErrorModel"
+        403:
+          description: "Forbidden"
+          schema:
+            $ref: "#/definitions/ErrorModel"
+        default:
+          description: "error payload"
+          schema:
+            $ref: "#/definitions/ErrorModel"
+      x-swagger-router-controller: "Programs"
+  /schools:
+    get:
+      tags:
+      - "Schools"
+      description: "Gets `Program` objects.\nOptional query param of **University**\
+        \ determines\nthe school wich programs are returned\n"
+      operationId: "schoolsGET"
+      parameters: []
+      responses:
+        200:
+          description: "Successful response"
+          schema:
+            $ref: "#/definitions/Schools"
+        400:
+          description: "Invalid date format should be in format YYYY-MM-DD"
+          schema:
+            $ref: "#/definitions/ErrorModel"
+        403:
+          description: "Forbidden"
+          schema:
+            $ref: "#/definitions/ErrorModel"
+        default:
+          description: "error payload"
+          schema:
+            $ref: "#/definitions/ErrorModel"
+      x-swagger-router-controller: "Schools"
+definitions:
+  Schools:
+    type: "object"
+    properties:
+      data:
+        type: "array"
+        items:
+          $ref: "#/definitions/School"
+  School:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int32"
+      sfid:
+        type: "string"
+      name:
+        type: "string"
+      createddate:
+        type: "string"
+        format: "date-time"
+      systemmodstamp:
+        type: "string"
+        format: "date-time"
+      university_abbreviations__c:
+        type: "string"
+      type:
+        type: "string"
+  Programs:
+    type: "object"
+    properties:
+      data:
+        type: "array"
+        items:
+          $ref: "#/definitions/Program"
+  Program:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int32"
+      sfid:
+        type: "string"
+      universityinstitutionid__c:
+        type: "string"
+      description__c:
+        type: "string"
+      systemmodstamp:
+        type: "string"
+        format: "date-time"
+      createddate:
+        type: "string"
+        format: "date-time"
+      academic_calendar__c:
+        type: "string"
+      bisk_discipline_id__c:
+        type: "integer"
+        format: "int32"
+      type:
+        type: "string"
+      sub_type__c:
+        type: "string"
+      biskcommon_program_id__c:
+        type: "integer"
+        format: "int32"
+      bisk_division_id__c:
+        type: "integer"
+        format: "int32"
+      universityname__c:
+        type: "string"
+      status__c:
+        type: "string"
+      university__c:
+        type: "string"
+  ErrorModel:
+    type: "object"
+    properties:
+      result:
+        type: "string"
+      resultDetails:
+        type: "string"
